@@ -257,3 +257,24 @@ install(
     DESTINATION
         "${E57_INSTALL_CMAKEDIR}"
 )
+
+if(UNIX AND NOT APPLE)
+    if(EXISTS "/etc/debian_version")
+        set(CPACK_GENERATOR "DEB")
+    elseif(EXISTS "/etc/redhat-release")
+        set(CPACK_GENERATOR "RPM")
+    else()
+        set(CPACK_GENERATOR "TGZ")  # fallback
+    endif()
+    set(CPACK_PACKAGE_NAME "libe57format")
+    set(CPACK_PACKAGE_VERSION "3.2.0")
+    set(CPACK_PACKAGE_CONTACT "Andy Maloney <asmaloney@fosstodon.org>")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Library for reading & writing the E57 file format")
+    set(CPACK_PACKAGE_VENDOR "")
+    set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/asmaloney/libE57Format")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Andy Maloney")
+    set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
+    set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libxerces-c-dev")
+    include(CPack)
+endif()
